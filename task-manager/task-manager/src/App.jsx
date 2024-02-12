@@ -18,6 +18,19 @@ function App() {
     })
   }
 
+  function handleAddProject(projectData) {
+    setProjectState(prevState => {
+      const newProject = {
+        ...projectData,
+        id : Math.random()
+      }
+      return {
+        ...prevState,
+        projects: [...prevState.projects, ]
+      };
+    });
+  }
+
   // Main logic to get new task when we click on Add button.
   let content;
   if(projectState.selectedProject === null){
