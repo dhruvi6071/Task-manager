@@ -28,6 +28,7 @@ function App() {
       };
       return {
         ...prevState,
+        selectedProject : undefined,
         projects: [...prevState.projects, newProject],
       };
     });
@@ -40,13 +41,13 @@ function App() {
   if (projectState.selectedProject === null) {
     content = <Task onAdd={handleAddProject} />;
   } else if (projectState.selectedProject === undefined) {
-    content = <Noselection onAddProject={handleNewProject} />;
+    content = <Noselection onStartAddProject={handleNewProject} />;
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
       {/* <h1 className="my-8 text-center text-5xl font-bold">Hello World</h1> */}
-      <Sidebar onAddProject={handleNewProject}></Sidebar>
+      <Sidebar onStartAddProject={handleNewProject} projects={projectState.projects}></Sidebar>
       {content}
     </main>
   );
