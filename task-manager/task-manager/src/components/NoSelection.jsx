@@ -1,6 +1,6 @@
 import noProjectImg from "../assets/no-projects.png";
 
-export default function Noselection({onAddProject}) {
+export default function Noselection({onStartAddProject}) {
   return (
     <div className="mt-24 text-center w-2/3">
       <img
@@ -13,7 +13,7 @@ export default function Noselection({onAddProject}) {
       </h2>
       <p className="text-stone-400 mb-4">Select a project to get started</p>
       <p mt-8>
-        <button className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950" onClick={onAddProject}>
+        <button className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950" onClick={onStartAddProject}>
           Create Project
         </button>
       </p>
