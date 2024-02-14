@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import Sidebar from "./components/Sidebar";
-import Task from "./components/task";
-import Noselection from "./components/NoSelection";
+import Sidebar from './components/Sidebar.jsx';
+import Task from "./components/Task.jsx";
+import Noselection from "./components/NoSelection.jsx";
 
 function App() {
    //Saving the entered data in raw format 
@@ -20,6 +20,15 @@ function App() {
     });
   }
 
+  function handleCancelNewProject() {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        selectedProject: undefined,
+      };
+    });
+  }
+
   function handleAddProject(projectData) {
     setProjectState((prevState) => {
       const newProject = {
@@ -33,13 +42,13 @@ function App() {
       };
     });
   }
-  console.log(projectState);
+  // console.log(projectState);
   //Saving the entered data in raw format 
 
   // Main logic to get new task when we click on Add button.
   let content;
   if (projectState.selectedProject === null) {
-    content = <Task onAdd={handleAddProject} />;
+    content = (<Task onAdd={handleAddProject} onCancel={handleCancelNewProject} />);
   } else if (projectState.selectedProject === undefined) {
     content = <Noselection onStartAddProject={handleNewProject} />;
   }

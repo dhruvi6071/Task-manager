@@ -1,37 +1,72 @@
 import { useRef } from "react";
 import Input from "./Input.jsx";
+import Modal from "./Modal.jsx";
 
-export default function Task({onAdd}) {
-    //Saving the entered data in raw format 
-    const title = useRef();
-    const description = useRef();
-    const duedate = useRef();
+export default function Task({ onAdd, onCancel }) {
+  const modal = useRef();
 
-    function handleSave() {
-        const enteredTitle = title.current.value;
-        const enteredDescription = title.current.value;
-        const enteredDuedate = title.current.value;
+  //Saving the entered data in raw format
+  const title = useRef();
+  const description = useRef();
+  const duedate = useRef();
 
-        //Validation...
+  function handleSave() {
+    const enteredTitle = title.current.value;
+    const enteredDescription = title.current.value;
+    const enteredDuedate = title.current.value;
 
-        onAdd({
-            title: enteredTitle,
-            description : enteredDescription,
-            duedate : enteredDuedate,
-        })
-
+    //Validation...
+    if (
+      enteredTitle.trim() === "" ||
+      enteredDescription.trim() === "" ||
+      enteredDuedate.trim() === ""
+    ) {
+      modal.current.open();
+      return;
     }
-  //Saving the entered data in raw format 
-  
+
+    onAdd({
+      title: enteredTitle,
+      description: enteredDescription,
+      duedate: enteredDuedate,
+    });
+  }
+  //Saving the entered data in raw format
+
   return (
-        <div className="w-[35rem] mt-16 ">
+    <>
+      <Modal ref={modal} buttonCaption="Okay" >
+      <h2 className="text-xl font-bold text-stone-700 my-4">Invalid Input</h2>
+      <p className="text-stone-600 mb-4">You forgot to enter a value</p>
+      <p className="text-stone-600 mb-4">
+        Make sure you have entered proper values to given fields.
+      </p>
+      </Modal>
+      <div className="w-[35rem] mt-16 ">
         <menu className="flex items-center justify-end gap-4 my-4">
-            <li><button className="text-stone-800 hover:text-stone-950" >Close</button></li>
-            <li><button className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950" onClick={handleSave}>Save</button></li>
+          <li>
+            <button
+              className="text-stone-800 hover:text-stone-950"
+              onClick={onCancel}
+            >
+              Close
+            </button>
+          </li>
+          <li>
+            <button
+              className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950"
+              onClick={handleSave}
+            >
+              Save
+            </button>
+          </li>
         </menu>
-        <Input type="text" ref={title} label="Title"/>
-        <Input ref={description} label="Description" textarea/>
-        <Input type="date" ref={duedate} label="Due Date"/>
+        <div>
+        <Input type="text" ref={title} label="Title" />
+        <Input ref={description} label="Description" textarea />
+        <Input type="date" ref={duedate} label="Due Date" />
         </div>
-    );
+      </div>
+    </>
+  );
 }
