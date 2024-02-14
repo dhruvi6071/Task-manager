@@ -1,13 +1,14 @@
 import { useState } from "react";
 
-import Sidebar from './components/Sidebar.jsx';
+import Sidebar from "./components/Sidebar.jsx";
 import Task from "./components/Task.jsx";
 import Noselection from "./components/NoSelection.jsx";
+import SelectedProject from "./components/SelectedProject.jsx";
 
 function App() {
-   //Saving the entered data in raw format 
+  //Saving the entered data in raw format
   const [projectState, setProjectState] = useState({
-    selectedProject: undefined,
+    selectedProjectId: undefined,
     projects: [],
   });
 
@@ -15,7 +16,7 @@ function App() {
     setProjectState((prevState) => {
       return {
         ...prevState,
-        selectedProject: null,
+        selectedProjectId: null,
       };
     });
   }
@@ -24,7 +25,16 @@ function App() {
     setProjectState((prevState) => {
       return {
         ...prevState,
-        selectedProject: undefined,
+        selectedProjectId: undefined,
+      };
+    });
+  }
+
+  function handleSelect(id) {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: id,
       };
     });
   }
@@ -37,26 +47,37 @@ function App() {
       };
       return {
         ...prevState,
-        selectedProject : undefined,
+        selectedProjectId: undefined,
         projects: [...prevState.projects, newProject],
       };
     });
   }
+  // Finding an element by ID using JavaScript
+  const selectedProject = projectState.projects.find(
+    (project) => project.id === projectState.selectedProjectId
+  );
+
   // console.log(projectState);
-  //Saving the entered data in raw format 
+  //Saving the entered data in raw format
 
   // Main logic to get new task when we click on Add button.
-  let content;
-  if (projectState.selectedProject === null) {
-    content = (<Task onAdd={handleAddProject} onCancel={handleCancelNewProject} />);
-  } else if (projectState.selectedProject === undefined) {
+  let content = <SelectedProject project={selectedProject} />;
+  if (projectState.selectedProjectId === null) {
+    content = (
+      <Task onAdd={handleAddProject} onCancel={handleCancelNewProject} />
+    );
+  } else if (projectState.selectedProjectId === undefined) {
     content = <Noselection onStartAddProject={handleNewProject} />;
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
       {/* <h1 className="my-8 text-center text-5xl font-bold">Hello World</h1> */}
-      <Sidebar onStartAddProject={handleNewProject} projects={projectState.projects}></Sidebar>
+      <Sidebar
+        onStartAddProject={handleNewProject}
+        projects={projectState.projects}
+        onSelect={handleSelect}
+      ></Sidebar>
       {content}
     </main>
   );
