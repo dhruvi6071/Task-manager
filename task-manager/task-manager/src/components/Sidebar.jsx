@@ -12,7 +12,7 @@ export default function Sidebar({
       <div>
         <button
           className="px-4 py-2 text-xs md:text-base rounded-md bg-stone-700 text-stone-400 hover:bg-stone-600 hover:bg-stone-100"
-          onClick={onStartAddProject}
+          // onClick={onStartAddProject}
         >
           + Add Project
         </button>
